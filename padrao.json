@@ -1,0 +1,87 @@
+{
+  "PID": {
+    "internalID": "Código Paciente",
+    "nationalityInternational": "Nacionalidade",
+    "maritalStatusInternational": "Estado civil",
+    "PatientIdentifierList": [
+      {
+        "IDNumber": "Código do Paciente",
+        "assigningAuthority": "Estabelecimento",
+        "givenName": "Nome e nome do meio",
+        "familyName": "Sobrenome",
+        "dateOfBirth": "MM/DD/AAAA",
+        "sex": "M/F",
+        "streetAddress": "Endereço",
+        "otherDesignation": "Bairro",
+        "city": "Município",
+        "stateOrProvince": "Sigla estado",
+        "phoneNumberHome": "Celular",
+        "telephoneNumberWorkInternational": "Celular",
+        "SSNnumberPatient": "Nº CPF",
+        "licenseNumber": "Nº RG",
+        "familyNameAlias": "Sobrenome",
+        "givenNameAlias": "Nome e nome do meio",
+        "givenFullNameAlias": "Nome completo",
+        "PatientIdentifierList": "Código do paciente",
+        "AssigningAuthority": {
+          "NamespaceID": "Estabelecimento"
+        }
+      },
+      {
+        "IDNumber": "Prontuário",
+        "IdentifierTypeCode": "Sigla Procedimento",
+        "AssigningAuthority": {
+          "NamespaceID": ""
+        }
+      },
+      {
+        "IDNumber": "Nº CPF",
+        "personLocationTypePointOfCare": "Setor de entrega",
+        "idNumberDoctorSoliPV1": "Número do conselho do méd. solicitante",
+        "familyNameDoctorSoliPV1": "Sobrenome médico solicitante",
+        "givenNameDoctorSoliPV1": "Nome e nome do meio do médico solicitante",
+        "givenNameDoctorSoliPV1International": "Nome completo médico solicitante",
+        "namespaceIdEstabPV1": "Estabelecimento",
+        "identifierCheckDigitPV1": "Número do conselho do méd. solicitante",
+        "namespaceIdUfCRMPV1": "Sigla estado médico solicitante",
+        "idNumberVisitNumber": "Número atendimento",
+        "assigningAuthorityIdEstab": "Estabelecimento",
+        "accountStatusDtAtend": "MM/DD/AAAA HH:MM:SS",
+        "idConvenioCard": "Código do usuário",
+        "organizationName": "Convênio",
+        "idNumberOrganization": "Código Convênio",
+        "entityIdentifierIdPedidoORC": "Prescrição",
+        "entityIdentifierAcessNumberORC": "Sequência Interna",
+        "endDateTime": "MM/DD/AAAA HH:MM:SS",
+        "personIdentifier": "Código Setor de Entrega",
+        "namespaceIdEstab": "Estabelecimento",
+        "originCode": "21",
+        "originCodeExt": "1"
+      }
+    ]
+  },
+  "OBR": {
+    "entityIdentifierIdPedidoOBR": "Prescrição",
+    "entityIdentifierAcessNumberOBR": "Sequência Interna",
+    "identifierIdExam": "Código Procedimento",
+    "alternateIdentifierIdExam": "Procedimento Interno",
+    "textExam": "Descrição",
+    "idNumberDoctorSoliOBR": "Código Interno Médico Solicitante",
+    "familyNameDoctorSoliOBR": "Sobrenome médico solicitante",
+    "givenNameDoctorSoliOBR": "Nome e nome do meio do médico solicitante",
+    "identifierCheckDigitOBR": "CRM Médico Solicitante",
+    "namespaceIdUfCRMOBR": "Sigla estado médico solicitante",
+    "requestedTimeOBRInternational": "MM/DD/AAAA HH:MM:SS",
+    "namespaceId": "Sequência Interna",
+    "placerField2": "Sequência Interna",
+    "fillerField1MoreIdPedido": "Prescrição",
+    "diagnosticServSectIDInternational": "Sigla Procedimento",
+    "idNumberDoctorExecOBR": "Código médico executor",
+    "familyNameDoctorExecOBR": "Sobrenome médico executor",
+    "givenNameDoctorExecOBR": "Nome e nome do meio do médico executor",
+    "AssigAuthNamespaceIdCRMOBR": "Sigla estado médico executor",
+    "AssigAuthUnivIdUFMedExecOBR": "CRM Médico executor",
+    "startDateTimeOBR": "MM/DD/AAAA HH:MM:00",
+    "endDateTimeOBR": "MM/DD/AAAA HH:MM:00"
+  }
+}
