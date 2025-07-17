@@ -45,7 +45,7 @@ $json = @{
 }
 
 $jsonString = $json | ConvertTo-Json -Depth 10
-$jsonPath = Read-Host 'Caminho para salvar o JSON (ex: C:\temp\saida.json)'
+$jsonPath = Read-Host 'Caminho para salvar o JSON (ex: C:\temp\nome-do-arquivo.json)'
 $jsonString | Out-File -FilePath $jsonPath -Encoding UTF8
 
 Write-Host "JSON salvo com sucesso em: $jsonPath"
