@@ -39,8 +39,8 @@ $json = @{
     givenNameDoctorExecOBR = Read-Host 'Nome e nome do meio do medico executor'
     AssigAuthNamespaceIdCRMOBR = Read-Host 'Sigla estado medico executor'
     AssigAuthUnivIdUFMedExecOBR = Read-Host 'CRM Medico executor'
-    startDateTimeOBR = Read-Host 'MM/DD/AAAA HH:MM:00'
-    endDateTimeOBR = Read-Host 'MM/DD/AAAA HH:MM:00'
+    startDateTimeOBR = Read-Host 'DD/MM/AAAA HH:MM:SS'
+    endDateTimeOBR = Read-Host 'DD/MM/AAAA HH:MM:SS'
   }
 }
 
