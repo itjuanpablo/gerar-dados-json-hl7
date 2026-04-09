@@ -1,0 +1,194 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@layer base {
+  :root {
+    --color-brand-blue: #185FA5;
+    --color-brand-blue-dark: #0C447C;
+    --color-brand-blue-light: #E6F1FB;
+    --color-brand-teal: #1D9E75;
+    --color-brand-teal-dark: #0F6E56;
+    --color-brand-teal-light: #E1F5EE;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-slate-50 text-slate-900 font-sans;
+  }
+}
+
+@layer components {
+  /* ── Field ── */
+  .field-label {
+    @apply block text-xs font-medium text-slate-500 mb-1 leading-none;
+  }
+
+  .field-input {
+    @apply w-full h-9 px-3 text-sm bg-white border border-slate-200 rounded-md
+           text-slate-900 placeholder-slate-300
+           focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500
+           transition-colors duration-150;
+  }
+
+  .field-input:not(:placeholder-shown) {
+    @apply border-slate-400;
+  }
+
+  /* ── Section card ── */
+  .section-card {
+    @apply bg-white border border-slate-200 rounded-xl p-5 mb-3;
+  }
+
+  .section-header {
+    @apply flex items-center gap-2 mb-4;
+  }
+
+  .section-title {
+    @apply text-sm font-medium text-slate-700;
+  }
+
+  /* ── Sub-section label ── */
+  .sub-label {
+    @apply flex items-center gap-2 text-xs font-medium text-slate-500 mb-3;
+  }
+
+  .sub-label::before {
+    content: '';
+    @apply block w-0.5 h-3.5 rounded-full bg-blue-500 flex-shrink-0;
+  }
+
+  /* ── Tag badges ── */
+  .tag {
+    @apply text-[10px] font-semibold px-2 py-0.5 rounded tracking-wide uppercase;
+  }
+
+  .tag-pid   { @apply bg-purple-50  text-purple-700; }
+  .tag-obr   { @apply bg-amber-50   text-amber-700; }
+  .tag-orc   { @apply bg-teal-50    text-teal-700; }
+  .tag-pv1   { @apply bg-orange-50  text-orange-700; }
+
+  /* ── Divider ── */
+  .section-divider {
+    @apply border-0 border-t border-slate-100 my-4;
+  }
+
+  /* ── Chip ── */
+  .chip {
+    @apply inline-flex items-center text-xs font-medium px-2.5 py-0.5 rounded-full border;
+  }
+
+  /* ── Stepper ── */
+  .stepper-btn {
+    @apply flex-1 flex items-center justify-center gap-2 py-2.5 px-2
+           text-xs font-medium text-slate-400 bg-slate-50
+           border-r border-slate-200 last:border-r-0
+           cursor-pointer transition-all duration-150 select-none;
+  }
+
+  .stepper-btn.active {
+    @apply bg-white text-blue-600;
+  }
+
+  .stepper-btn.done {
+    @apply text-teal-600;
+  }
+
+  .step-num {
+    @apply w-5 h-5 rounded-full flex items-center justify-center
+           text-[10px] font-semibold bg-slate-200 text-slate-500 flex-shrink-0;
+  }
+
+  .stepper-btn.active .step-num {
+    @apply bg-blue-600 text-white;
+  }
+
+  .stepper-btn.done .step-num {
+    @apply bg-teal-500 text-white;
+  }
+
+  /* ── Buttons ── */
+  .btn {
+    @apply inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium
+           border transition-all duration-150 cursor-pointer select-none;
+  }
+
+  .btn-primary {
+    @apply bg-blue-600 text-white border-blue-600 hover:bg-blue-700 hover:border-blue-700;
+  }
+
+  .btn-success {
+    @apply bg-teal-600 text-white border-teal-600 hover:bg-teal-700 hover:border-teal-700;
+  }
+
+  .btn-secondary {
+    @apply bg-white text-slate-600 border-slate-200 hover:bg-slate-50;
+  }
+
+  .btn-ghost {
+    @apply bg-transparent text-slate-400 border-slate-200 text-xs
+           hover:bg-slate-50 hover:text-slate-600;
+  }
+
+  /* ── Fixed metric cell ── */
+  .metric-cell {
+    @apply bg-white border border-slate-200 rounded-lg px-4 py-3;
+  }
+
+  .metric-label {
+    @apply text-[10px] font-semibold text-slate-400 uppercase tracking-widest mb-1;
+  }
+
+  .metric-value {
+    @apply text-sm font-semibold text-slate-800 font-mono;
+  }
+
+  /* ── JSON preview ── */
+  .json-preview {
+    @apply bg-slate-950 rounded-xl overflow-hidden border border-slate-800;
+  }
+
+  .json-topbar {
+    @apply flex items-center justify-between px-4 py-2.5
+           border-b border-slate-800 bg-slate-900;
+  }
+
+  .json-filename {
+    @apply text-xs font-mono text-slate-400;
+  }
+
+  .json-body {
+    @apply p-4 text-xs font-mono leading-relaxed overflow-auto max-h-[420px]
+           text-slate-300 whitespace-pre-wrap break-all;
+  }
+
+  .json-key   { @apply text-sky-400; }
+  .json-str   { @apply text-emerald-400; }
+  .json-num   { @apply text-amber-400; }
+  .json-bool  { @apply text-purple-400; }
+  .json-null  { @apply text-rose-400; }
+
+  /* ── Required star ── */
+  .req { @apply text-rose-500 ml-0.5; }
+
+  /* ── Toast ── */
+  .toast {
+    @apply fixed bottom-6 right-6 z-50
+           flex items-center gap-2.5 px-4 py-3 rounded-xl
+           bg-teal-50 border border-teal-200 text-teal-800
+           text-sm font-medium shadow-sm
+           transition-all duration-300
+           pointer-events-none;
+  }
+}
