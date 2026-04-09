@@ -1,342 +1,814 @@
-
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: var(--font-sans); }
-  .wrap { padding: 1.5rem 0; }
-  .header { margin-bottom: 1.5rem; }
-  .header h1 { font-size: 18px; font-weight: 500; color: var(--color-text-primary); }
-  .header p { font-size: 13px; color: var(--color-text-secondary); margin-top: 4px; }
-  .badge { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 999px; margin-right: 6px; }
-  .badge-fixed { background: #E6F1FB; color: #0C447C; }
-  .badge-section { background: #EAF3DE; color: #3B6D11; }
-  .fixed-block { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; margin-bottom: 1.25rem; }
-  .fixed-block .fixed-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px 16px; margin-top: 10px; }
-  .fixed-item label { font-size: 11px; color: var(--color-text-secondary); display: block; margin-bottom: 2px; }
-  .fixed-item span { font-size: 13px; font-weight: 500; color: var(--color-text-primary); }
-  .section-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; margin-bottom: 1rem; }
-  .section-title { font-size: 13px; font-weight: 500; color: var(--color-text-secondary); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.06em; }
-  .section-tag { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 4px; }
-  .pid-tag { background: #EEEDFE; color: #534AB7; }
-  .obr-tag { background: #FAEEDA; color: #854F0B; }
-  .pid-id-tag { background: #E1F5EE; color: #0F6E56; }
-  .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px 16px; }
-  .form-group { display: flex; flex-direction: column; gap: 4px; }
-  .form-group label { font-size: 12px; color: var(--color-text-secondary); }
-  .form-group input { font-size: 13px; padding: 6px 10px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: var(--color-background-primary); color: var(--color-text-primary); height: 34px; width: 100%; outline: none; }
-  .form-group input:focus { border-color: #378ADD; box-shadow: 0 0 0 2px rgba(55,138,221,0.15); }
-  .form-group input::placeholder { color: var(--color-text-tertiary); font-size: 12px; }
-  .divider { border: none; border-top: 0.5px solid var(--color-border-tertiary); margin: 1rem 0; }
-  .tabs { display: flex; gap: 4px; margin-bottom: 1rem; border-bottom: 0.5px solid var(--color-border-tertiary); padding-bottom: 0; }
-  .tab-btn { font-size: 13px; padding: 8px 16px; border: none; background: none; cursor: pointer; color: var(--color-text-secondary); border-bottom: 2px solid transparent; margin-bottom: -1px; font-family: var(--font-sans); transition: color 0.15s; }
-  .tab-btn.active { color: #185FA5; border-bottom-color: #185FA5; font-weight: 500; }
-  .tab-btn:hover:not(.active) { color: var(--color-text-primary); }
-  .tab-content { display: none; }
-  .tab-content.active { display: block; }
-  .pid-id-label { font-size: 11px; font-weight: 500; color: #0F6E56; background: #E1F5EE; padding: 2px 8px; border-radius: 4px; margin-bottom: 8px; display: inline-block; }
-  .actions { display: flex; gap: 10px; align-items: center; margin-top: 1.25rem; }
-  .btn-primary { font-size: 13px; font-weight: 500; padding: 8px 20px; border-radius: var(--border-radius-md); border: none; cursor: pointer; font-family: var(--font-sans); }
-  .btn-dl { background: #185FA5; color: #fff; }
-  .btn-dl:hover { background: #0C447C; }
-  .btn-clear { background: var(--color-background-secondary); color: var(--color-text-secondary); border: 0.5px solid var(--color-border-secondary); }
-  .btn-clear:hover { background: var(--color-background-tertiary); }
-  .preview-block { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 12px; margin-top: 1rem; font-size: 11.5px; font-family: var(--font-mono); color: var(--color-text-secondary); white-space: pre-wrap; word-break: break-all; max-height: 280px; overflow-y: auto; }
-  .toast { position: fixed; bottom: 20px; right: 20px; background: #185FA5; color: #fff; font-size: 13px; padding: 10px 18px; border-radius: var(--border-radius-md); opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 999; }
-  .toast.show { opacity: 1; }
-  .required-star { color: #E24B4A; margin-left: 2px; }
-  .section-subtitle { font-size: 11px; color: var(--color-text-tertiary); margin-top: -8px; margin-bottom: 10px; }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0
+  }
+
+  .app {
+    padding: 1.5rem 0 2rem
+  }
+
+  .app-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    gap: 16px
+  }
+
+  .app-title {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    letter-spacing: -0.3px
+  }
+
+  .app-sub {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    margin-top: 3px
+  }
+
+  .chips {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 8px
+  }
+
+  .chip {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 999px;
+    border: 0.5px solid
+  }
+
+  .chip-blue {
+    background: #E6F1FB;
+    color: #0C447C;
+    border-color: #B5D4F4
+  }
+
+  .chip-teal {
+    background: #E1F5EE;
+    color: #085041;
+    border-color: #9FE1CB
+  }
+
+  .chip-gray {
+    background: var(--color-background-secondary);
+    color: var(--color-text-secondary);
+    border-color: var(--color-border-tertiary)
+  }
+
+  .fixed-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin-bottom: 1.25rem
+  }
+
+  .fixed-cell {
+    background: var(--color-background-secondary);
+    border-radius: var(--border-radius-md);
+    padding: 10px 12px;
+    border: 0.5px solid var(--color-border-tertiary)
+  }
+
+  .fixed-cell .lbl {
+    font-size: 10px;
+    color: var(--color-text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    margin-bottom: 3px
+  }
+
+  .fixed-cell .val {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    font-family: var(--font-mono)
+  }
+
+  .stepper {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-bottom: 1.25rem;
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    background: var(--color-background-secondary)
+  }
+
+  .step-btn {
+    flex: 1;
+    padding: 10px 8px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: background .15s, color .15s;
+    border-right: 0.5px solid var(--color-border-tertiary);
+    white-space: nowrap
+  }
+
+  .step-btn:last-child {
+    border-right: none
+  }
+
+  .step-btn.active {
+    background: var(--color-background-primary);
+    color: #185FA5;
+    font-weight: 500
+  }
+
+  .step-btn.active .step-num {
+    background: #185FA5;
+    color: #fff
+  }
+
+  .step-btn.done .step-num {
+    background: #1D9E75;
+    color: #fff
+  }
+
+  .step-num {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--color-border-secondary);
+    color: var(--color-text-tertiary);
+    font-size: 10px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0
+  }
+
+  .panel {
+    display: none
+  }
+
+  .panel.active {
+    display: block
+  }
+
+  .section {
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-lg);
+    padding: 1.25rem;
+    margin-bottom: 12px
+  }
+
+  .section-hd {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px
+  }
+
+  .section-hd h3 {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text-primary)
+  }
+
+  .stag {
+    font-size: 10px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 4px;
+    letter-spacing: .04em
+  }
+
+  .stag-pid {
+    background: #EEEDFE;
+    color: #3C3489
+  }
+
+  .stag-obr {
+    background: #FAEEDA;
+    color: #633806
+  }
+
+  .stag-orc {
+    background: #E1F5EE;
+    color: #085041
+  }
+
+  .stag-pv1 {
+    background: #FAECE7;
+    color: #712B13
+  }
+
+  .fg {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px 14px
+  }
+
+  .fg.cols2 {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr))
+  }
+
+  .f {
+    display: flex;
+    flex-direction: column;
+    gap: 4px
+  }
+
+  .f label {
+    font-size: 11px;
+    color: var(--color-text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 3px
+  }
+
+  .req {
+    color: #E24B4A;
+    font-size: 11px
+  }
+
+  .f input {
+    font-size: 13px;
+    padding: 7px 10px;
+    border-radius: var(--border-radius-md);
+    border: 0.5px solid var(--color-border-secondary);
+    background: var(--color-background-primary);
+    color: var(--color-text-primary);
+    height: 34px;
+    width: 100%;
+    outline: none;
+    font-family: var(--font-sans)
+  }
+
+  .f input:focus {
+    border-color: #378ADD;
+    box-shadow: 0 0 0 2px rgba(55, 138, 221, .12)
+  }
+
+  .f input:not(:placeholder-shown) {
+    border-color: var(--color-border-primary)
+  }
+
+  .f input::placeholder {
+    color: var(--color-text-tertiary);
+    font-size: 12px
+  }
+
+  .sep {
+    border: none;
+    border-top: 0.5px solid var(--color-border-tertiary);
+    margin: 14px 0
+  }
+
+  .sub-lbl {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 10px
+  }
+
+  .sub-lbl::before {
+    content: '';
+    display: block;
+    width: 3px;
+    height: 12px;
+    border-radius: 2px;
+    background: #378ADD
+  }
+
+  .nav-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1.25rem;
+    gap: 10px
+  }
+
+  .btn {
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 18px;
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    font-family: var(--font-sans);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: 0.5px solid var(--color-border-secondary);
+    background: var(--color-background-secondary);
+    color: var(--color-text-primary);
+    transition: background .15s
+  }
+
+  .btn:hover {
+    background: var(--color-background-tertiary)
+  }
+
+  .btn-next {
+    background: #185FA5;
+    color: #fff;
+    border-color: #185FA5
+  }
+
+  .btn-next:hover {
+    background: #0C447C;
+    border-color: #0C447C
+  }
+
+  .btn-dl {
+    background: #1D9E75;
+    color: #fff;
+    border-color: #1D9E75
+  }
+
+  .btn-dl:hover {
+    background: #0F6E56;
+    border-color: #0F6E56
+  }
+
+  .btn-ghost {
+    background: none;
+    border-color: var(--color-border-tertiary);
+    color: var(--color-text-secondary);
+    font-size: 12px;
+    padding: 7px 14px
+  }
+
+  .btn-ghost:hover {
+    background: var(--color-background-secondary)
+  }
+
+  .preview-wrap {
+    background: var(--color-background-secondary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-lg);
+    padding: 1px
+  }
+
+  .preview-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    border-bottom: 0.5px solid var(--color-border-tertiary)
+  }
+
+  .preview-bar span {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    font-family: var(--font-mono)
+  }
+
+  .preview-code {
+    font-size: 11.5px;
+    font-family: var(--font-mono);
+    color: var(--color-text-secondary);
+    padding: 14px;
+    white-space: pre-wrap;
+    word-break: break-all;
+    max-height: 320px;
+    overflow-y: auto;
+    line-height: 1.6
+  }
+
+  .json-key {
+    color: #185FA5
+  }
+
+  .json-str {
+    color: #1D9E75
+  }
+
+  .json-num {
+    color: #854F0B
+  }
+
+  .progress-bar {
+    height: 3px;
+    background: var(--color-border-tertiary);
+    border-radius: 2px;
+    margin-bottom: 1.25rem;
+    overflow: hidden
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: #185FA5;
+    border-radius: 2px;
+    transition: width .3s
+  }
+
+  .ico {
+    width: 14px;
+    height: 14px;
+    display: inline-block;
+    vertical-align: middle
+  }
+
+  .toast-wrap {
+    pointer-events: none;
+    padding: 12px 0 0
+  }
+
+  .toast {
+    font-size: 13px;
+    padding: 10px 16px;
+    border-radius: var(--border-radius-md);
+    opacity: 0;
+    transition: opacity .3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #E1F5EE;
+    color: #085041;
+    border: 0.5px solid #9FE1CB
+  }
+
+  .toast.show {
+    opacity: 1
+  }
 </style>
 
-<div class="wrap">
-  <div class="header">
-    <h1>Gerador de JSON HL7 — PACS</h1>
-    <p>Preencha os dados do paciente e do exame para gerar o payload HL7 pronto para envio ao PACS.</p>
-    <div style="margin-top: 8px;">
-      <span class="badge badge-fixed">Fixo: TASY → VUEPACS</span>
-      <span class="badge badge-section">Exporta JSON pronto</span>
-    </div>
-  </div>
-
-  <div class="fixed-block">
-    <div style="font-size: 12px; font-weight: 500; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.06em;">Valores fixos da integração</div>
-    <div class="fixed-grid">
-      <div class="fixed-item"><label>sendingApplication</label><span>TASY</span></div>
-      <div class="fixed-item"><label>sendingFacility</label><span>PHILIPS</span></div>
-      <div class="fixed-item"><label>receivingApplication</label><span>VUEPACS</span></div>
-      <div class="fixed-item"><label>receivingFacility</label><span>PHILIPS</span></div>
-      <div class="fixed-item"><label>processingID</label><span>P</span></div>
-      <div class="fixed-item"><label>characterSet</label><span>8859/1</span></div>
-    </div>
-  </div>
-
-  <div class="tabs">
-    <button class="tab-btn active" onclick="switchTab('pid')">PID — Paciente</button>
-    <button class="tab-btn" onclick="switchTab('pid2')">PID — Atendimento</button>
-    <button class="tab-btn" onclick="switchTab('obr')">OBR — Exame</button>
-    <button class="tab-btn" onclick="switchTab('preview')">Preview JSON</button>
-  </div>
-
-  <div id="tab-pid" class="tab-content active">
-    <div class="section-card">
-      <div class="section-title"><span class="section-tag pid-tag">PID</span> Identificação do paciente</div>
-      <div class="form-grid">
-        <div class="form-group"><label>Código Paciente (internalID)<span class="required-star">*</span></label><input id="internalID" placeholder="Ex: 123456"></div>
-        <div class="form-group"><label>Nacionalidade</label><input id="nationalityInternational" placeholder="Ex: Brasileiro"></div>
-        <div class="form-group"><label>Estado civil</label><input id="maritalStatusInternational" placeholder="Ex: S / C / D"></div>
-      </div>
-      <hr class="divider">
-      <div class="pid-id-label">PatientIdentifierList [0] — Dados cadastrais</div>
-      <div class="form-grid">
-        <div class="form-group"><label>Código do Paciente (IDNumber)</label><input id="pid0_IDNumber" placeholder="Código interno"></div>
-        <div class="form-group"><label>Estabelecimento (assigningAuthority)</label><input id="pid0_assigningAuthority" placeholder="Ex: HGE"></div>
-        <div class="form-group"><label>Nome e nome do meio (givenName)<span class="required-star">*</span></label><input id="pid0_givenName" placeholder="Ex: Maria Aparecida"></div>
-        <div class="form-group"><label>Sobrenome (familyName)<span class="required-star">*</span></label><input id="pid0_familyName" placeholder="Ex: Silva"></div>
-        <div class="form-group"><label>Data de nascimento (MM/DD/AAAA)</label><input id="pid0_dateOfBirth" placeholder="01/15/1985"></div>
-        <div class="form-group"><label>Sexo (M/F)</label><input id="pid0_sex" placeholder="M ou F" maxlength="1"></div>
-        <div class="form-group"><label>Endereço</label><input id="pid0_streetAddress" placeholder="Rua das Flores, 100"></div>
-        <div class="form-group"><label>Bairro</label><input id="pid0_otherDesignation" placeholder="Centro"></div>
-        <div class="form-group"><label>Município</label><input id="pid0_city" placeholder="São Paulo"></div>
-        <div class="form-group"><label>Sigla estado</label><input id="pid0_stateOrProvince" placeholder="SP" maxlength="2"></div>
-        <div class="form-group"><label>Celular</label><input id="pid0_phoneNumberHome" placeholder="(11) 99999-0000"></div>
-        <div class="form-group"><label>CPF</label><input id="pid0_SSNnumberPatient" placeholder="000.000.000-00"></div>
-        <div class="form-group"><label>RG</label><input id="pid0_licenseNumber" placeholder="00.000.000-0"></div>
-        <div class="form-group"><label>Sobrenome (alias)</label><input id="pid0_familyNameAlias" placeholder="Nome social sobrenome"></div>
-        <div class="form-group"><label>Nome e meio (alias)</label><input id="pid0_givenNameAlias" placeholder="Nome social"></div>
-        <div class="form-group"><label>Nome completo (alias)</label><input id="pid0_givenFullNameAlias" placeholder="Nome social completo"></div>
-      </div>
-      <hr class="divider">
-      <div class="pid-id-label">PatientIdentifierList [1] — Prontuário</div>
-      <div class="form-grid">
-        <div class="form-group"><label>Prontuário (IDNumber)</label><input id="pid1_IDNumber" placeholder="Ex: 0012345"></div>
-        <div class="form-group"><label>Sigla Procedimento (IdentifierTypeCode)</label><input id="pid1_IdentifierTypeCode" placeholder="Ex: RAD"></div>
-      </div>
-      <hr class="divider">
-      <div class="pid-id-label">PatientIdentifierList [2] — CPF + PV1</div>
-      <div class="form-grid">
-        <div class="form-group"><label>CPF (IDNumber)</label><input id="pid2_IDNumber" placeholder="000.000.000-00"></div>
-        <div class="form-group"><label>Setor de entrega (personLocationTypePointOfCare)</label><input id="pid2_sectorDelivery" placeholder="Ex: RADIOLOGIA"></div>
+<div class="app">
+  <div class="app-header">
+    <div>
+      <div class="app-title">Gerador HL7 — PACS</div>
+      <div class="app-sub">Monte o payload JSON para envio ao VUEPACS via integração TASY</div>
+      <div class="chips">
+        <span class="chip chip-blue">TASY → VUEPACS</span>
+        <span class="chip chip-teal">processingID: P</span>
+        <span class="chip chip-gray">charset 8859/1</span>
       </div>
     </div>
   </div>
 
-  <div id="tab-pid2" class="tab-content">
-    <div class="section-card">
-      <div class="section-title"><span class="section-tag pid-tag">PID</span> Médico solicitante & atendimento</div>
-      <div class="pid-id-label">PV1 — Médico Solicitante</div>
-      <div class="form-grid">
-        <div class="form-group"><label>Nº conselho méd. solicitante</label><input id="idNumberDoctorSoliPV1" placeholder="CRM 00000"></div>
-        <div class="form-group"><label>Sobrenome méd. solicitante</label><input id="familyNameDoctorSoliPV1" placeholder="Sobrenome"></div>
-        <div class="form-group"><label>Nome e meio méd. solicitante</label><input id="givenNameDoctorSoliPV1" placeholder="Nome e nome do meio"></div>
-        <div class="form-group"><label>Nome completo méd. solicitante</label><input id="givenNameDoctorSoliPV1International" placeholder="Nome completo"></div>
-        <div class="form-group"><label>Estabelecimento (PV1)</label><input id="namespaceIdEstabPV1" placeholder="Ex: HGE"></div>
-        <div class="form-group"><label>Nº conselho (check digit PV1)</label><input id="identifierCheckDigitPV1" placeholder="CRM 00000"></div>
-        <div class="form-group"><label>UF CRM méd. solicitante</label><input id="namespaceIdUfCRMPV1" placeholder="SP" maxlength="2"></div>
-      </div>
-      <hr class="divider">
-      <div class="pid-id-label">Atendimento & Convênio</div>
-      <div class="form-grid">
-        <div class="form-group"><label>Número atendimento<span class="required-star">*</span></label><input id="idNumberVisitNumber" placeholder="Ex: 202604080001"></div>
-        <div class="form-group"><label>Estabelecimento (atendimento)</label><input id="assigningAuthorityIdEstab" placeholder="Ex: HGE"></div>
-        <div class="form-group"><label>Dt. atendimento (MM/DD/AAAA HH:MM:SS)</label><input id="accountStatusDtAtend" placeholder="04/08/2026 08:00:00"></div>
-        <div class="form-group"><label>Código usuário (convênio)</label><input id="idConvenioCard" placeholder="Código usuário"></div>
-        <div class="form-group"><label>Convênio (organizationName)</label><input id="organizationName" placeholder="Ex: UNIMED"></div>
-        <div class="form-group"><label>Código Convênio</label><input id="idNumberOrganization" placeholder="Ex: 00123"></div>
-      </div>
-      <hr class="divider">
-      <div class="pid-id-label">ORC — Pedido / Access Number</div>
-      <div class="form-grid">
-        <div class="form-group"><label>Prescrição (entityIdentifierIdPedidoORC)<span class="required-star">*</span></label><input id="entityIdentifierIdPedidoORC" placeholder="Ex: 20260408"></div>
-        <div class="form-group"><label>Access Number (entityIdentifierAcessNumberORC)<span class="required-star">*</span></label><input id="entityIdentifierAcessNumberORC" placeholder="Ex: 175805001"></div>
-        <div class="form-group"><label>endDateTime (MM/DD/AAAA HH:MM:SS)</label><input id="endDateTime" placeholder="04/08/2026 23:59:59"></div>
-        <div class="form-group"><label>Código Setor de Entrega</label><input id="personIdentifier" placeholder="Ex: 0021"></div>
-        <div class="form-group"><label>Estabelecimento (setor)</label><input id="namespaceIdEstab" placeholder="Ex: HGE"></div>
-      </div>
+  <div class="fixed-row">
+    <div class="fixed-cell">
+      <div class="lbl">Sending app</div>
+      <div class="val">TASY</div>
+    </div>
+    <div class="fixed-cell">
+      <div class="lbl">Receiving app</div>
+      <div class="val">VUEPACS</div>
+    </div>
+    <div class="fixed-cell">
+      <div class="lbl">Facility</div>
+      <div class="val">PHILIPS</div>
     </div>
   </div>
 
-  <div id="tab-obr" class="tab-content">
-    <div class="section-card">
-      <div class="section-title"><span class="section-tag obr-tag">OBR</span> Dados do exame</div>
-      <div class="form-grid">
-        <div class="form-group"><label>Prescrição (entityIdentifierIdPedidoOBR)<span class="required-star">*</span></label><input id="entityIdentifierIdPedidoOBR" placeholder="Ex: 20260408"></div>
-        <div class="form-group"><label>Sequência Interna (AcessNumberOBR)<span class="required-star">*</span></label><input id="entityIdentifierAcessNumberOBR" placeholder="Ex: 175805001"></div>
-        <div class="form-group"><label>Código Procedimento<span class="required-star">*</span></label><input id="identifierIdExam" placeholder="Ex: RX001"></div>
-        <div class="form-group"><label>Procedimento Interno</label><input id="alternateIdentifierIdExam" placeholder="Código interno"></div>
-        <div class="form-group"><label>Descrição do exame<span class="required-star">*</span></label><input id="textExam" placeholder="Ex: Radiografia de tórax"></div>
-        <div class="form-group"><label>Sigla Procedimento</label><input id="diagnosticServSectIDInternational" placeholder="Ex: RAD"></div>
-        <div class="form-group"><label>Sequência Interna (namespaceId)</label><input id="namespaceId" placeholder="Ex: 175805001"></div>
-        <div class="form-group"><label>Sequência Interna (placerField2)</label><input id="placerField2" placeholder="Ex: 175805001"></div>
-        <div class="form-group"><label>Prescrição (fillerField1MoreIdPedido)</label><input id="fillerField1MoreIdPedido" placeholder="Ex: 20260408"></div>
+  <div class="progress-bar">
+    <div class="progress-fill" id="prog" style="width:25%"></div>
+  </div>
+
+  <div class="stepper">
+    <button class="step-btn active" id="sbtn0" onclick="goStep(0)"><span class="step-num"
+        id="sn0">1</span>Paciente</button>
+    <button class="step-btn" id="sbtn1" onclick="goStep(1)"><span class="step-num" id="sn1">2</span>Atendimento</button>
+    <button class="step-btn" id="sbtn2" onclick="goStep(2)"><span class="step-num" id="sn2">3</span>Exame</button>
+    <button class="step-btn" id="sbtn3" onclick="goStep(3)"><span class="step-num" id="sn3">4</span>Revisar</button>
+  </div>
+
+  <div id="p0" class="panel active">
+    <div class="section">
+      <div class="section-hd"><span class="stag stag-pid">PID</span>
+        <h3>Identificação do paciente</h3>
       </div>
-      <hr class="divider">
-      <div class="pid-id-label">Médico Solicitante (OBR)</div>
-      <div class="form-grid">
-        <div class="form-group"><label>Código interno méd. solicitante</label><input id="idNumberDoctorSoliOBR" placeholder="Código interno"></div>
-        <div class="form-group"><label>Sobrenome méd. solicitante</label><input id="familyNameDoctorSoliOBR" placeholder="Sobrenome"></div>
-        <div class="form-group"><label>Nome e meio méd. solicitante</label><input id="givenNameDoctorSoliOBR" placeholder="Nome e nome do meio"></div>
-        <div class="form-group"><label>CRM méd. solicitante</label><input id="identifierCheckDigitOBR" placeholder="CRM 00000"></div>
-        <div class="form-group"><label>UF CRM méd. solicitante</label><input id="namespaceIdUfCRMOBR" placeholder="SP" maxlength="2"></div>
-        <div class="form-group"><label>Dt. solicitação (MM/DD/AAAA HH:MM:SS)</label><input id="requestedTimeOBRInternational" placeholder="04/08/2026 08:00:00"></div>
+      <div class="fg">
+        <div class="f"><label>Código paciente<span class="req">*</span></label><input id="internalID"
+            placeholder="Ex: 123456"></div>
+        <div class="f"><label>Nacionalidade</label><input id="nationalityInternational" placeholder="Ex: Brasileiro">
+        </div>
+        <div class="f"><label>Estado civil</label><input id="maritalStatusInternational" placeholder="S / C / D / V">
+        </div>
       </div>
-      <hr class="divider">
-      <div class="pid-id-label">Médico Executor (OBR)</div>
-      <div class="form-grid">
-        <div class="form-group"><label>Código méd. executor</label><input id="idNumberDoctorExecOBR" placeholder="Código interno"></div>
-        <div class="form-group"><label>Sobrenome méd. executor</label><input id="familyNameDoctorExecOBR" placeholder="Sobrenome"></div>
-        <div class="form-group"><label>Nome e meio méd. executor</label><input id="givenNameDoctorExecOBR" placeholder="Nome e nome do meio"></div>
-        <div class="form-group"><label>UF CRM méd. executor</label><input id="AssigAuthNamespaceIdCRMOBR" placeholder="SP" maxlength="2"></div>
-        <div class="form-group"><label>CRM méd. executor</label><input id="AssigAuthUnivIdUFMedExecOBR" placeholder="CRM 00000"></div>
-        <div class="form-group"><label>Início (MM/DD/AAAA HH:MM:00)</label><input id="startDateTimeOBR" placeholder="04/08/2026 08:00:00"></div>
-        <div class="form-group"><label>Fim (MM/DD/AAAA HH:MM:00)</label><input id="endDateTimeOBR" placeholder="04/08/2026 09:00:00"></div>
+      <div class="sep"></div>
+      <div class="sub-lbl">Dados cadastrais — PatientIdentifierList [0]</div>
+      <div class="fg">
+        <div class="f"><label>Nome e nome do meio<span class="req">*</span></label><input id="pid0_givenName"
+            placeholder="Maria Aparecida"></div>
+        <div class="f"><label>Sobrenome<span class="req">*</span></label><input id="pid0_familyName"
+            placeholder="Silva"></div>
+        <div class="f"><label>Data de nascimento (MM/DD/AAAA)</label><input id="pid0_dateOfBirth"
+            placeholder="01/15/1985"></div>
+        <div class="f"><label>Sexo</label><input id="pid0_sex" placeholder="M ou F" maxlength="1"
+            style="max-width:90px"></div>
+        <div class="f"><label>CPF</label><input id="pid0_SSNnumberPatient" placeholder="000.000.000-00"></div>
+        <div class="f"><label>RG</label><input id="pid0_licenseNumber" placeholder="00.000.000-0"></div>
+        <div class="f"><label>Celular</label><input id="pid0_phoneNumberHome" placeholder="(11) 99999-0000"></div>
+        <div class="f"><label>Endereço</label><input id="pid0_streetAddress" placeholder="Rua das Flores, 100"></div>
+        <div class="f"><label>Bairro</label><input id="pid0_otherDesignation" placeholder="Centro"></div>
+        <div class="f"><label>Município</label><input id="pid0_city" placeholder="São Paulo"></div>
+        <div class="f"><label>UF</label><input id="pid0_stateOrProvince" placeholder="SP" maxlength="2"
+            style="max-width:80px"></div>
+        <div class="f"><label>Estabelecimento</label><input id="pid0_assigningAuthority" placeholder="Ex: HGE"></div>
       </div>
+      <div class="sep"></div>
+      <div class="sub-lbl">Nome social (alias)</div>
+      <div class="fg cols2">
+        <div class="f"><label>Nome e nome do meio (alias)</label><input id="pid0_givenNameAlias"
+            placeholder="Nome social"></div>
+        <div class="f"><label>Sobrenome (alias)</label><input id="pid0_familyNameAlias" placeholder="Sobrenome social">
+        </div>
+      </div>
+      <div class="sep"></div>
+      <div class="sub-lbl">PatientIdentifierList [1] — Prontuário</div>
+      <div class="fg">
+        <div class="f"><label>Prontuário</label><input id="pid1_IDNumber" placeholder="Ex: 0012345"></div>
+        <div class="f"><label>Sigla procedimento</label><input id="pid1_IdentifierTypeCode" placeholder="Ex: RAD"></div>
+      </div>
+    </div>
+    <div class="nav-row">
+      <button class="btn btn-ghost" onclick="clearAll()">Limpar tudo</button>
+      <button class="btn btn-next" onclick="goStep(1)">Próximo <svg class="ico" viewBox="0 0 14 14" fill="none">
+          <path d="M5 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg></button>
     </div>
   </div>
 
-  <div id="tab-preview" class="tab-content">
-    <div class="section-card">
-      <div class="section-title">Preview do JSON gerado</div>
-      <p class="section-subtitle">O JSON abaixo reflete os dados preenchidos nos outros campos.</p>
-      <button class="btn-primary btn-clear" onclick="refreshPreview()" style="font-size: 12px; padding: 6px 14px; margin-bottom: 8px;">Atualizar preview</button>
-      <div class="preview-block" id="json-preview">Preencha os campos e clique em "Atualizar preview".</div>
+  <div id="p1" class="panel">
+    <div class="section">
+      <div class="section-hd"><span class="stag stag-pv1">PV1</span>
+        <h3>Médico solicitante</h3>
+      </div>
+      <div class="fg">
+        <div class="f"><label>Nº conselho (CRM)</label><input id="idNumberDoctorSoliPV1" placeholder="CRM 00000"></div>
+        <div class="f"><label>UF CRM</label><input id="namespaceIdUfCRMPV1" placeholder="SP" maxlength="2"
+            style="max-width:80px"></div>
+        <div class="f"><label>Sobrenome</label><input id="familyNameDoctorSoliPV1" placeholder="Sobrenome"></div>
+        <div class="f"><label>Nome e nome do meio</label><input id="givenNameDoctorSoliPV1"
+            placeholder="Nome e nome do meio"></div>
+        <div class="f"><label>Nome completo</label><input id="givenNameDoctorSoliPV1International"
+            placeholder="Nome completo"></div>
+        <div class="f"><label>Estabelecimento (PV1)</label><input id="namespaceIdEstabPV1" placeholder="Ex: HGE"></div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-hd"><span class="stag stag-pid">PID</span>
+        <h3>Atendimento e convênio</h3>
+      </div>
+      <div class="fg">
+        <div class="f"><label>CPF (IDNumber [2])</label><input id="pid2_IDNumber" placeholder="000.000.000-00"></div>
+        <div class="f"><label>Setor de entrega</label><input id="pid2_sectorDelivery" placeholder="Ex: RADIOLOGIA">
+        </div>
+        <div class="f"><label>Número de atendimento<span class="req">*</span></label><input id="idNumberVisitNumber"
+            placeholder="Ex: 202604080001"></div>
+        <div class="f"><label>Estabelecimento (atendimento)</label><input id="assigningAuthorityIdEstab"
+            placeholder="Ex: HGE"></div>
+        <div class="f"><label>Dt. atendimento (MM/DD/AAAA HH:MM:SS)</label><input id="accountStatusDtAtend"
+            placeholder="04/08/2026 08:00:00"></div>
+        <div class="f"><label>Convênio</label><input id="organizationName" placeholder="Ex: UNIMED"></div>
+        <div class="f"><label>Código convênio</label><input id="idNumberOrganization" placeholder="Ex: 00123"></div>
+        <div class="f"><label>Código usuário (convênio)</label><input id="idConvenioCard" placeholder="Código usuário">
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-hd"><span class="stag stag-orc">ORC</span>
+        <h3>Pedido / Access Number</h3>
+      </div>
+      <div class="fg">
+        <div class="f"><label>Prescrição<span class="req">*</span></label><input id="entityIdentifierIdPedidoORC"
+            placeholder="Ex: 20260408"></div>
+        <div class="f"><label>Access Number (Seq. interna)<span class="req">*</span></label><input
+            id="entityIdentifierAcessNumberORC" placeholder="Ex: 175805001"></div>
+        <div class="f"><label>Data fim (MM/DD/AAAA HH:MM:SS)</label><input id="endDateTime"
+            placeholder="04/08/2026 23:59:59"></div>
+        <div class="f"><label>Código setor entrega</label><input id="personIdentifier" placeholder="Ex: 0021"></div>
+        <div class="f"><label>Estabelecimento (setor)</label><input id="namespaceIdEstab" placeholder="Ex: HGE"></div>
+      </div>
+    </div>
+    <div class="nav-row">
+      <button class="btn" onclick="goStep(0)"><svg class="ico" viewBox="0 0 14 14" fill="none">
+          <path d="M9 3L5 7l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg> Anterior</button>
+      <button class="btn btn-next" onclick="goStep(2)">Próximo <svg class="ico" viewBox="0 0 14 14" fill="none">
+          <path d="M5 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg></button>
     </div>
   </div>
 
-  <div class="actions">
-    <button class="btn-primary btn-dl" onclick="downloadJSON()">⬇ Baixar JSON</button>
-    <button class="btn-primary btn-clear" onclick="clearAll()">Limpar tudo</button>
+  <div id="p2" class="panel">
+    <div class="section">
+      <div class="section-hd"><span class="stag stag-obr">OBR</span>
+        <h3>Dados do exame</h3>
+      </div>
+      <div class="fg">
+        <div class="f"><label>Prescrição<span class="req">*</span></label><input id="entityIdentifierIdPedidoOBR"
+            placeholder="Ex: 20260408"></div>
+        <div class="f"><label>Sequência interna (Access Number)<span class="req">*</span></label><input
+            id="entityIdentifierAcessNumberOBR" placeholder="Ex: 175805001"></div>
+        <div class="f"><label>Código procedimento<span class="req">*</span></label><input id="identifierIdExam"
+            placeholder="Ex: RX001"></div>
+        <div class="f"><label>Procedimento interno</label><input id="alternateIdentifierIdExam"
+            placeholder="Código interno"></div>
+        <div class="f"><label>Descrição do exame<span class="req">*</span></label><input id="textExam"
+            placeholder="Ex: Radiografia de tórax"></div>
+        <div class="f"><label>Sigla procedimento</label><input id="diagnosticServSectIDInternational"
+            placeholder="Ex: RAD"></div>
+        <div class="f"><label>Sequência interna (namespaceId)</label><input id="namespaceId"
+            placeholder="Ex: 175805001"></div>
+        <div class="f"><label>Sequência interna (placerField2)</label><input id="placerField2"
+            placeholder="Ex: 175805001"></div>
+        <div class="f"><label>Prescrição (fillerField1)</label><input id="fillerField1MoreIdPedido"
+            placeholder="Ex: 20260408"></div>
+      </div>
+      <div class="sep"></div>
+      <div class="sub-lbl">Médico solicitante (OBR)</div>
+      <div class="fg">
+        <div class="f"><label>Código interno</label><input id="idNumberDoctorSoliOBR" placeholder="Código interno">
+        </div>
+        <div class="f"><label>Sobrenome</label><input id="familyNameDoctorSoliOBR" placeholder="Sobrenome"></div>
+        <div class="f"><label>Nome e nome do meio</label><input id="givenNameDoctorSoliOBR"
+            placeholder="Nome e nome do meio"></div>
+        <div class="f"><label>CRM</label><input id="identifierCheckDigitOBR" placeholder="CRM 00000"></div>
+        <div class="f"><label>UF CRM</label><input id="namespaceIdUfCRMOBR" placeholder="SP" maxlength="2"
+            style="max-width:80px"></div>
+        <div class="f"><label>Dt. solicitação (MM/DD/AAAA HH:MM:SS)</label><input id="requestedTimeOBRInternational"
+            placeholder="04/08/2026 08:00:00"></div>
+      </div>
+      <div class="sep"></div>
+      <div class="sub-lbl">Médico executor (OBR)</div>
+      <div class="fg">
+        <div class="f"><label>Código interno</label><input id="idNumberDoctorExecOBR" placeholder="Código interno">
+        </div>
+        <div class="f"><label>Sobrenome</label><input id="familyNameDoctorExecOBR" placeholder="Sobrenome"></div>
+        <div class="f"><label>Nome e nome do meio</label><input id="givenNameDoctorExecOBR"
+            placeholder="Nome e nome do meio"></div>
+        <div class="f"><label>UF CRM</label><input id="AssigAuthNamespaceIdCRMOBR" placeholder="SP" maxlength="2"
+            style="max-width:80px"></div>
+        <div class="f"><label>CRM</label><input id="AssigAuthUnivIdUFMedExecOBR" placeholder="CRM 00000"></div>
+        <div class="f"><label>Início exame (MM/DD/AAAA HH:MM:00)</label><input id="startDateTimeOBR"
+            placeholder="04/08/2026 08:00:00"></div>
+        <div class="f"><label>Fim exame (MM/DD/AAAA HH:MM:00)</label><input id="endDateTimeOBR"
+            placeholder="04/08/2026 09:00:00"></div>
+      </div>
+    </div>
+    <div class="nav-row">
+      <button class="btn" onclick="goStep(1)"><svg class="ico" viewBox="0 0 14 14" fill="none">
+          <path d="M9 3L5 7l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg> Anterior</button>
+      <button class="btn btn-next" onclick="goStep(3)">Revisar JSON <svg class="ico" viewBox="0 0 14 14" fill="none">
+          <path d="M5 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg></button>
+    </div>
+  </div>
+
+  <div id="p3" class="panel">
+    <div class="preview-wrap">
+      <div class="preview-bar">
+        <span id="preview-fname">hl7_pacs.json</span>
+        <button class="btn btn-ghost" onclick="refreshPreview()"
+          style="padding:4px 10px;font-size:11px">Atualizar</button>
+      </div>
+      <div class="preview-code" id="json-preview">Clique em "Atualizar" para gerar o preview.</div>
+    </div>
+    <div class="nav-row">
+      <button class="btn" onclick="goStep(2)"><svg class="ico" viewBox="0 0 14 14" fill="none">
+          <path d="M9 3L5 7l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg> Editar</button>
+      <button class="btn btn-dl" onclick="downloadJSON()">
+        <svg class="ico" viewBox="0 0 14 14" fill="none">
+          <path d="M7 2v7M4 7l3 3 3-3M2 11h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg>
+        Baixar JSON
+      </button>
+    </div>
+  </div>
+
+  <div class="toast-wrap">
+    <div class="toast" id="toast"></div>
   </div>
 </div>
 
-<div class="toast" id="toast"></div>
-
 <script>
-function v(id){ return (document.getElementById(id)||{}).value || ''; }
-
-function switchTab(name){
-  document.querySelectorAll('.tab-btn').forEach((b,i)=>{
-    b.classList.toggle('active', ['pid','pid2','obr','preview'][i]===name);
-  });
-  document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
-  document.getElementById('tab-'+name).classList.add('active');
-  if(name==='preview') refreshPreview();
-}
-
-function buildJSON(){
-  return {
-    sendingApplication: 'TASY',
-    sendingFacility: 'PHILIPS',
-    receivingApplication: 'VUEPACS',
-    receivingFacility: 'PHILIPS',
-    processingID: 'P',
-    characterSet: '8859/1',
-    PID: {
-      internalID: v('internalID'),
-      nationalityInternational: v('nationalityInternational'),
-      maritalStatusInternational: v('maritalStatusInternational'),
-      PatientIdentifierList: [
-        {
-          IDNumber: v('pid0_IDNumber'),
-          assigningAuthority: v('pid0_assigningAuthority'),
-          givenName: v('pid0_givenName'),
-          familyName: v('pid0_familyName'),
-          dateOfBirth: v('pid0_dateOfBirth'),
-          sex: v('pid0_sex'),
-          streetAddress: v('pid0_streetAddress'),
-          otherDesignation: v('pid0_otherDesignation'),
-          city: v('pid0_city'),
-          stateOrProvince: v('pid0_stateOrProvince'),
-          phoneNumberHome: v('pid0_phoneNumberHome'),
-          telephoneNumberWorkInternational: v('pid0_phoneNumberHome'),
-          SSNnumberPatient: v('pid0_SSNnumberPatient'),
-          licenseNumber: v('pid0_licenseNumber'),
-          familyNameAlias: v('pid0_familyNameAlias'),
-          givenNameAlias: v('pid0_givenNameAlias'),
-          givenFullNameAlias: v('pid0_givenFullNameAlias'),
-          PatientIdentifierList: v('pid0_IDNumber'),
-          AssigningAuthority: { NamespaceID: v('pid0_assigningAuthority') }
-        },
-        {
-          IDNumber: v('pid1_IDNumber'),
-          IdentifierTypeCode: v('pid1_IdentifierTypeCode'),
-          AssigningAuthority: { NamespaceID: '' }
-        },
-        {
-          IDNumber: v('pid2_IDNumber'),
-          personLocationTypePointOfCare: v('pid2_sectorDelivery'),
-          idNumberDoctorSoliPV1: v('idNumberDoctorSoliPV1'),
-          familyNameDoctorSoliPV1: v('familyNameDoctorSoliPV1'),
-          givenNameDoctorSoliPV1: v('givenNameDoctorSoliPV1'),
-          givenNameDoctorSoliPV1International: v('givenNameDoctorSoliPV1International'),
-          namespaceIdEstabPV1: v('namespaceIdEstabPV1'),
-          identifierCheckDigitPV1: v('identifierCheckDigitPV1'),
-          namespaceIdUfCRMPV1: v('namespaceIdUfCRMPV1'),
-          idNumberVisitNumber: v('idNumberVisitNumber'),
-          assigningAuthorityIdEstab: v('assigningAuthorityIdEstab'),
-          accountStatusDtAtend: v('accountStatusDtAtend'),
-          idConvenioCard: v('idConvenioCard'),
-          organizationName: v('organizationName'),
-          idNumberOrganization: v('idNumberOrganization'),
-          entityIdentifierIdPedidoORC: v('entityIdentifierIdPedidoORC'),
-          entityIdentifierAcessNumberORC: v('entityIdentifierAcessNumberORC'),
-          endDateTime: v('endDateTime'),
-          personIdentifier: v('personIdentifier'),
-          namespaceIdEstab: v('namespaceIdEstab'),
-          originCode: '21',
-          originCodeExt: '1'
-        }
-      ]
-    },
-    OBR: {
-      entityIdentifierIdPedidoOBR: v('entityIdentifierIdPedidoOBR'),
-      entityIdentifierAcessNumberOBR: v('entityIdentifierAcessNumberOBR'),
-      identifierIdExam: v('identifierIdExam'),
-      alternateIdentifierIdExam: v('alternateIdentifierIdExam'),
-      textExam: v('textExam'),
-      idNumberDoctorSoliOBR: v('idNumberDoctorSoliOBR'),
-      familyNameDoctorSoliOBR: v('familyNameDoctorSoliOBR'),
-      givenNameDoctorSoliOBR: v('givenNameDoctorSoliOBR'),
-      identifierCheckDigitOBR: v('identifierCheckDigitOBR'),
-      namespaceIdUfCRMOBR: v('namespaceIdUfCRMOBR'),
-      requestedTimeOBRInternational: v('requestedTimeOBRInternational'),
-      namespaceId: v('namespaceId'),
-      placerField2: v('placerField2'),
-      fillerField1MoreIdPedido: v('fillerField1MoreIdPedido'),
-      diagnosticServSectIDInternational: v('diagnosticServSectIDInternational'),
-      idNumberDoctorExecOBR: v('idNumberDoctorExecOBR'),
-      familyNameDoctorExecOBR: v('familyNameDoctorExecOBR'),
-      givenNameDoctorExecOBR: v('givenNameDoctorExecOBR'),
-      AssigAuthNamespaceIdCRMOBR: v('AssigAuthNamespaceIdCRMOBR'),
-      AssigAuthUnivIdUFMedExecOBR: v('AssigAuthUnivIdUFMedExecOBR'),
-      startDateTimeOBR: v('startDateTimeOBR'),
-      endDateTimeOBR: v('endDateTimeOBR')
-    }
-  };
-}
-
-function refreshPreview(){
-  document.getElementById('json-preview').textContent = JSON.stringify(buildJSON(), null, 2);
-}
-
-function showToast(msg){
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), 2500);
-}
-
-function downloadJSON(){
-  const an = v('entityIdentifierAcessNumberORC') || v('entityIdentifierAcessNumberOBR') || 'paciente';
-  const fname = 'hl7_pacs_' + an.replace(/\W/g,'_') + '.json';
-  const blob = new Blob([JSON.stringify(buildJSON(), null, 2)], {type:'application/json'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = fname;
-  a.click();
-  showToast('JSON baixado: ' + fname);
-}
-
-function clearAll(){
-  document.querySelectorAll('input[id]').forEach(i=>{ if(!['tab-btn'].includes(i.className)) i.value=''; });
-  document.getElementById('json-preview').textContent = 'Preencha os campos e clique em "Atualizar preview".';
-  showToast('Formulário limpo.');
-}
+  let cur = 0;
+  function v(id) { return (document.getElementById(id) || {}).value || ''; }
+  function goStep(n) {
+    document.querySelectorAll('.panel').forEach((p, i) => p.classList.toggle('active', i === n));
+    document.querySelectorAll('.step-btn').forEach((b, i) => {
+      b.classList.remove('active', 'done');
+      if (i === n) b.classList.add('active');
+      else if (i < n) b.classList.add('done');
+    });
+    document.querySelectorAll('.step-num').forEach((s, i) => {
+      if (i < n) { s.innerHTML = '<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'; }
+      else s.textContent = i + 1;
+    });
+    document.getElementById('prog').style.width = (((n + 1) / 4) * 100) + '%';
+    cur = n;
+    if (n === 3) refreshPreview();
+  }
+  function buildJSON() {
+    return {
+      sendingApplication: 'TASY', sendingFacility: 'PHILIPS',
+      receivingApplication: 'VUEPACS', receivingFacility: 'PHILIPS',
+      processingID: 'P', characterSet: '8859/1',
+      PID: {
+        internalID: v('internalID'),
+        nationalityInternational: v('nationalityInternational'),
+        maritalStatusInternational: v('maritalStatusInternational'),
+        PatientIdentifierList: [
+          {
+            IDNumber: v('internalID'), assigningAuthority: v('pid0_assigningAuthority'),
+            givenName: v('pid0_givenName'), familyName: v('pid0_familyName'),
+            dateOfBirth: v('pid0_dateOfBirth'), sex: v('pid0_sex'),
+            streetAddress: v('pid0_streetAddress'), otherDesignation: v('pid0_otherDesignation'),
+            city: v('pid0_city'), stateOrProvince: v('pid0_stateOrProvince'),
+            phoneNumberHome: v('pid0_phoneNumberHome'), telephoneNumberWorkInternational: v('pid0_phoneNumberHome'),
+            SSNnumberPatient: v('pid0_SSNnumberPatient'), licenseNumber: v('pid0_licenseNumber'),
+            familyNameAlias: v('pid0_familyNameAlias'), givenNameAlias: v('pid0_givenNameAlias'),
+            givenFullNameAlias: (v('pid0_givenNameAlias') + ' ' + v('pid0_familyNameAlias')).trim(),
+            PatientIdentifierList: v('internalID'),
+            AssigningAuthority: { NamespaceID: v('pid0_assigningAuthority') }
+          },
+          { IDNumber: v('pid1_IDNumber'), IdentifierTypeCode: v('pid1_IdentifierTypeCode'), AssigningAuthority: { NamespaceID: '' } },
+          {
+            IDNumber: v('pid2_IDNumber'), personLocationTypePointOfCare: v('pid2_sectorDelivery'),
+            idNumberDoctorSoliPV1: v('idNumberDoctorSoliPV1'), familyNameDoctorSoliPV1: v('familyNameDoctorSoliPV1'),
+            givenNameDoctorSoliPV1: v('givenNameDoctorSoliPV1'), givenNameDoctorSoliPV1International: v('givenNameDoctorSoliPV1International'),
+            namespaceIdEstabPV1: v('namespaceIdEstabPV1'), identifierCheckDigitPV1: v('identifierCheckDigitPV1'),
+            namespaceIdUfCRMPV1: v('namespaceIdUfCRMPV1'), idNumberVisitNumber: v('idNumberVisitNumber'),
+            assigningAuthorityIdEstab: v('assigningAuthorityIdEstab'), accountStatusDtAtend: v('accountStatusDtAtend'),
+            idConvenioCard: v('idConvenioCard'), organizationName: v('organizationName'),
+            idNumberOrganization: v('idNumberOrganization'), entityIdentifierIdPedidoORC: v('entityIdentifierIdPedidoORC'),
+            entityIdentifierAcessNumberORC: v('entityIdentifierAcessNumberORC'), endDateTime: v('endDateTime'),
+            personIdentifier: v('personIdentifier'), namespaceIdEstab: v('namespaceIdEstab'),
+            originCode: '21', originCodeExt: '1'
+          }
+        ]
+      },
+      OBR: {
+        entityIdentifierIdPedidoOBR: v('entityIdentifierIdPedidoOBR'),
+        entityIdentifierAcessNumberOBR: v('entityIdentifierAcessNumberOBR'),
+        identifierIdExam: v('identifierIdExam'), alternateIdentifierIdExam: v('alternateIdentifierIdExam'),
+        textExam: v('textExam'), idNumberDoctorSoliOBR: v('idNumberDoctorSoliOBR'),
+        familyNameDoctorSoliOBR: v('familyNameDoctorSoliOBR'), givenNameDoctorSoliOBR: v('givenNameDoctorSoliOBR'),
+        identifierCheckDigitOBR: v('identifierCheckDigitOBR'), namespaceIdUfCRMOBR: v('namespaceIdUfCRMOBR'),
+        requestedTimeOBRInternational: v('requestedTimeOBRInternational'), namespaceId: v('namespaceId'),
+        placerField2: v('placerField2'), fillerField1MoreIdPedido: v('fillerField1MoreIdPedido'),
+        diagnosticServSectIDInternational: v('diagnosticServSectIDInternational'),
+        idNumberDoctorExecOBR: v('idNumberDoctorExecOBR'), familyNameDoctorExecOBR: v('familyNameDoctorExecOBR'),
+        givenNameDoctorExecOBR: v('givenNameDoctorExecOBR'), AssigAuthNamespaceIdCRMOBR: v('AssigAuthNamespaceIdCRMOBR'),
+        AssigAuthUnivIdUFMedExecOBR: v('AssigAuthUnivIdUFMedExecOBR'),
+        startDateTimeOBR: v('startDateTimeOBR'), endDateTimeOBR: v('endDateTimeOBR')
+      }
+    };
+  }
+  function syntaxHL(json) {
+    return json.replace(/("[\w]+")\s*:/g, '<span class="json-key">$1</span>:')
+      .replace(/:\s*(".*?")/g, ': <span class="json-str">$1</span>')
+      .replace(/:\s*(\d+)/g, ': <span class="json-num">$1</span>');
+  }
+  function refreshPreview() {
+    const j = buildJSON();
+    const an = v('entityIdentifierAcessNumberORC') || v('entityIdentifierAcessNumberOBR') || 'paciente';
+    const fname = 'hl7_pacs_' + an.replace(/\W/g, '_') + '.json';
+    document.getElementById('preview-fname').textContent = fname;
+    document.getElementById('json-preview').innerHTML = syntaxHL(JSON.stringify(j, null, 2));
+  }
+  function downloadJSON() {
+    const j = buildJSON();
+    const an = v('entityIdentifierAcessNumberORC') || v('entityIdentifierAcessNumberOBR') || 'paciente';
+    const fname = 'hl7_pacs_' + an.replace(/\W/g, '_') + '.json';
+    const blob = new Blob([JSON.stringify(j, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = fname; a.click();
+    toast('JSON baixado: ' + fname);
+  }
+  function clearAll() {
+    document.querySelectorAll('input[id]').forEach(i => i.value = '');
+    document.getElementById('json-preview').textContent = 'Clique em "Atualizar" para gerar o preview.';
+    toast('Formulário limpo.');
+  }
+  function toast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2800);
+  }
 </script>
