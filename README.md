@@ -1,4 +1,4 @@
-# HL7 PACS — Gerador de Payload JSON
+# Gerador de Payload em formato JSON
 
 Aplicação Next.js 14 para gerar payloads HL7 (JSON) para integração TASY → VUEPACS.
 
