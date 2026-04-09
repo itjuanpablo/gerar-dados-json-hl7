@@ -1,72 +1,85 @@
-# 📄 CreateJSON-HL7Model
+# HL7 PACS — Gerador de Payload JSON
 
-## 📌 Descrição
+Aplicação Next.js 14 para gerar payloads HL7 (JSON) para integração TASY → VUEPACS.
 
-Este script em PowerShell coleta informações do usuário via terminal e ao final do processo gera um **arquivo JSON** estruturado baseado em um modelo de dados inspirado no padrão HL7 (muito utilizado na área da saúde).
+## Estrutura de arquivos
 
-## ⚙️ O que o script faz?
+```
+hl7-pacs/
+├── app/
+│   ├── components/
+│   │   ├── Field.tsx          # Input reutilizável com label
+│   │   ├── Stepper.tsx        # Navegação por etapas
+│   │   ├── StepPaciente.tsx   # Etapa 1 — dados do paciente
+│   │   ├── StepAtendimento.tsx# Etapa 2 — atendimento, PV1, ORC
+│   │   ├── StepExame.tsx      # Etapa 3 — dados OBR
+│   │   ├── StepRevisar.tsx    # Etapa 4 — preview + download
+│   │   └── Toast.tsx          # Notificação de feedback
+│   ├── lib/
+│   │   └── buildPayload.ts    # Monta o JSON HL7 e faz syntax highlight
+│   ├── styles/
+│   │   └── globals.css        # Tailwind + design system (componentes CSS)
+│   ├── types/
+│   │   └── hl7.ts             # Tipos TypeScript + estado inicial do form
+│   ├── layout.tsx             # Root layout
+│   └── page.tsx               # Página principal (orquestra tudo)
+├── package.json
+├── tailwind.config.js
+├── postcss.config.js
+├── tsconfig.json
+└── next.config.js
+```
 
-* Define alguns **valores fixos** de integração (ex: sistema de origem e destino).
-* Solicita ao usuário diversos dados via `Read-Host`, incluindo:
+## Como rodar
 
-  * Informações do paciente (PID)
-  * Dados do exame/pedido médico (OBR)
-* Monta um objeto estruturado em formato JSON com essas informações.
-* Converte o objeto para string JSON.
-* Solicita o caminho onde o arquivo deve ser salvo.
-* Salva o arquivo `.json` no local informado.
-* Exibe uma mensagem de sucesso ao final.
+```bash
+# 1. Instalar dependências
+npm install
 
-## 🧩 Estrutura do JSON
+# 2. Rodar em modo desenvolvimento
+npm run dev
 
-O JSON gerado contém:
+# 3. Acessar no browser
+# http://localhost:3000
+```
 
-* **Metadados de integração**
+## Como fazer build para produção
 
-  * sendingApplication
-  * sendingFacility
-  * receivingApplication
-  * receivingFacility
-  * processingID
-  * characterSet
+```bash
+npm run build
+npm start
+```
 
-* **PID (Paciente)**
+## Funcionalidades
 
-  * Código do paciente
-  * Nacionalidade
-  * Estado civil
+- **4 etapas** com stepper visual e barra de progresso
+- **Valores fixos** automáticos: TASY, VUEPACS, PHILIPS, processingID P, charset 8859/1
+- **Formulário completo** com todos os campos do modelo `modelo-json_hl7.json`
+  - PID[0] — Dados cadastrais do paciente
+  - PID[1] — Prontuário
+  - PID[2] — CPF + PV1 (médico solicitante, atendimento, convênio, ORC)
+  - OBR — Dados do exame, médico solicitante e executor
+- **Preview JSON** com syntax highlighting (etapa 4)
+- **Download** do arquivo `.json` nomeado automaticamente com o Access Number
+- **TypeScript** estrito em todos os arquivos
+- **Tailwind CSS** com design system via `@layer components`
+- **Responsivo** — funciona em mobile, tablet e desktop
 
-* **OBR (Ordem/Exame)**
+## Campos obrigatórios (marcados com *)
 
-  * Identificação do pedido
-  * Dados do exame
-  * Informações do médico solicitante
-  * Informações do médico executor
-  * Datas e horários do procedimento
+- Código paciente
+- Nome e nome do meio
+- Sobrenome
+- Número de atendimento
+- Prescrição ORC
+- Access Number ORC
+- Prescrição OBR
+- Access Number OBR
+- Código procedimento
+- Descrição do exame
 
-## ▶️ Como usar
+## Query SQL de auditoria
 
-1. Execute o script no PowerShell:
-
-   ```powershell
-   .\CreateJSON-HL7Model.ps1
-   ```
-
-2. Preencha os dados solicitados no terminal.
-
-3. Informe o caminho completo onde deseja salvar o arquivo JSON:
-
-   ```
-   C:\temp\arquivo.json
-   ```
-
-4. O arquivo será criado automaticamente.
-
-## ✅ Resultado
-
-Um arquivo JSON estruturado, pronto para integração com sistemas que utilizam padrão semelhante ao HL7.
-
-## 💡 Observação
-
-* O script depende totalmente de entrada manual do usuário.
-* Certifique-se de inserir os dados no formato correto (principalmente datas e horários).
+A consulta `hl7_pacs_by_an.sql` pode ser usada para verificar se o payload
+foi enviado corretamente ao PACS. Filtre pelo `entityIdentifierAcessNumberORC`
+gerado neste formulário.
