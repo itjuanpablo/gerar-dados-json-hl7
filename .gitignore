@@ -13,8 +13,11 @@ out/
 .env.production.local
 
 # Sistema operacional
-.DS_Store       # Mac cria esse arquivo em toda pasta
-Thumbs.db       # Windows
+# Mac cria esse arquivo em toda pasta
+.DS_Store
+
+# Windows
+Thumbs.db
 
 # Editores
 .vscode/
