@@ -11,78 +11,90 @@ interface Props {
 export default function StepPaciente({ form, set }: Props) {
   return (
     <div className="space-y-3">
-      {/* Identificação */}
+
+      {/* Identificação principal */}
       <div className="section-card">
         <div className="section-header">
           <span className="tag tag-pid">PID</span>
           <h2 className="section-title">Identificação do paciente</h2>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          <Field label="Código paciente" id="internalID" required
-            value={form.internalID} onChange={v => set('internalID', v)} placeholder="Ex: 123456" />
+          <Field label="Código paciente (internalID)" id="internalID" required
+            value={form.internalID} onChange={v => set('internalID', v)} placeholder="Ex: 355213" />
+          <Field label="Estabelecimento (assigningAuthority)" id="assigningAuthority" required
+            value={form.assigningAuthority} onChange={v => set('assigningAuthority', v)} placeholder="Ex: 115" />
           <Field label="Nacionalidade" id="nationalityInternational"
-            value={form.nationalityInternational} onChange={v => set('nationalityInternational', v)} placeholder="Ex: Brasileiro" />
+            value={form.nationalityInternational} onChange={v => set('nationalityInternational', v)} placeholder="Ex: BRASIL" />
           <Field label="Estado civil" id="maritalStatusInternational"
             value={form.maritalStatusInternational} onChange={v => set('maritalStatusInternational', v)} placeholder="S / C / D / V" />
         </div>
       </div>
 
-      {/* Dados cadastrais */}
+      {/* Dados pessoais */}
       <div className="section-card">
         <div className="section-header">
-          <span className="tag tag-pid">PID[0]</span>
-          <h2 className="section-title">Dados cadastrais</h2>
+          <span className="tag tag-pid">PID</span>
+          <h2 className="section-title">Dados pessoais</h2>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          <Field label="Nome e nome do meio" id="pid0_givenName" required
-            value={form.pid0_givenName} onChange={v => set('pid0_givenName', v)} placeholder="Maria Aparecida" />
-          <Field label="Sobrenome" id="pid0_familyName" required
-            value={form.pid0_familyName} onChange={v => set('pid0_familyName', v)} placeholder="Silva" />
-          <Field label="Data de nascimento (MM/DD/AAAA)" id="pid0_dateOfBirth"
-            value={form.pid0_dateOfBirth} onChange={v => set('pid0_dateOfBirth', v)} placeholder="01/15/1985" />
-          <Field label="Sexo" id="pid0_sex"
-            value={form.pid0_sex} onChange={v => set('pid0_sex', v)} placeholder="M ou F" maxLength={1} />
-          <Field label="CPF" id="pid0_SSNnumberPatient"
-            value={form.pid0_SSNnumberPatient} onChange={v => set('pid0_SSNnumberPatient', v)} placeholder="000.000.000-00" />
-          <Field label="RG" id="pid0_licenseNumber"
-            value={form.pid0_licenseNumber} onChange={v => set('pid0_licenseNumber', v)} placeholder="00.000.000-0" />
-          <Field label="Celular" id="pid0_phoneNumberHome"
-            value={form.pid0_phoneNumberHome} onChange={v => set('pid0_phoneNumberHome', v)} placeholder="(11) 99999-0000" />
-          <Field label="Endereço" id="pid0_streetAddress"
-            value={form.pid0_streetAddress} onChange={v => set('pid0_streetAddress', v)} placeholder="Rua das Flores, 100" />
-          <Field label="Bairro" id="pid0_otherDesignation"
-            value={form.pid0_otherDesignation} onChange={v => set('pid0_otherDesignation', v)} placeholder="Centro" />
-          <Field label="Município" id="pid0_city"
-            value={form.pid0_city} onChange={v => set('pid0_city', v)} placeholder="São Paulo" />
-          <Field label="UF" id="pid0_stateOrProvince"
-            value={form.pid0_stateOrProvince} onChange={v => set('pid0_stateOrProvince', v)} placeholder="SP" maxLength={2} />
-          <Field label="Estabelecimento" id="pid0_assigningAuthority"
-            value={form.pid0_assigningAuthority} onChange={v => set('pid0_assigningAuthority', v)} placeholder="Ex: HGE" />
+          <Field label="Nome e nome do meio (givenName)" id="givenName" required
+            value={form.givenName} onChange={v => set('givenName', v)} placeholder="Ex: KAMILLA PEREIRA" />
+          <Field label="Sobrenome (familyName)" id="familyName" required
+            value={form.familyName} onChange={v => set('familyName', v)} placeholder="Ex: CHIARADIA" />
+          <Field label="Data nascimento (MM/DD/AAAA)" id="dateOfBirth"
+            value={form.dateOfBirth} onChange={v => set('dateOfBirth', v)} placeholder="10/29/1992" />
+          <Field label="Sexo" id="sex"
+            value={form.sex} onChange={v => set('sex', v)} placeholder="M ou F" maxLength={1} />
+          <Field label="CPF (SSNnumberPatient)" id="SSNnumberPatient"
+            value={form.SSNnumberPatient} onChange={v => set('SSNnumberPatient', v)} placeholder="Ex: 12367825696" />
+          <Field label="RG (licenseNumber)" id="licenseNumber"
+            value={form.licenseNumber} onChange={v => set('licenseNumber', v)} placeholder="Ex: 0000000" />
+          <Field label="Celular (phoneNumberHome)" id="phoneNumberHome"
+            value={form.phoneNumberHome} onChange={v => set('phoneNumberHome', v)} placeholder="Ex: 35 988114928" />
+          <Field label="E-mail" id="emailAddressPatient"
+            value={form.emailAddressPatient} onChange={v => set('emailAddressPatient', v)} placeholder="email@exemplo.com" />
+          <Field label="Nome da mãe (familyNameMother)" id="familyNameMother"
+            value={form.familyNameMother} onChange={v => set('familyNameMother', v)} placeholder="Sobrenome da mãe" />
         </div>
 
         <hr className="section-divider" />
-        <div className="sub-label">Nome social (alias)</div>
+        <div className="sub-label">Endereço</div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          <Field label="Logradouro (streetAddress)" id="streetAddress"
+            value={form.streetAddress} onChange={v => set('streetAddress', v)} placeholder="Ex: Estrada Anhumas - 3397" />
+          <Field label="Bairro (otherDesignation)" id="otherDesignation"
+            value={form.otherDesignation} onChange={v => set('otherDesignation', v)} placeholder="Ex: Anhumas" />
+          <Field label="Município (city)" id="city"
+            value={form.city} onChange={v => set('city', v)} placeholder="Ex: Itajubá" />
+          <Field label="UF (stateOrProvince)" id="stateOrProvince"
+            value={form.stateOrProvince} onChange={v => set('stateOrProvince', v)} placeholder="Ex: MG" maxLength={2} />
+        </div>
+
+        <hr className="section-divider" />
+        <div className="sub-label">Nome social (alias — opcional)</div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <Field label="Nome e nome do meio (alias)" id="pid0_givenNameAlias"
-            value={form.pid0_givenNameAlias} onChange={v => set('pid0_givenNameAlias', v)} placeholder="Nome social" />
-          <Field label="Sobrenome (alias)" id="pid0_familyNameAlias"
-            value={form.pid0_familyNameAlias} onChange={v => set('pid0_familyNameAlias', v)} placeholder="Sobrenome social" />
+          <Field label="Nome e meio (givenNameAlias)" id="givenNameAlias"
+            value={form.givenNameAlias} onChange={v => set('givenNameAlias', v)} placeholder="Nome social" />
+          <Field label="Sobrenome (familyNameAlias)" id="familyNameAlias"
+            value={form.familyNameAlias} onChange={v => set('familyNameAlias', v)} placeholder="Sobrenome social" />
         </div>
       </div>
 
-      {/* Prontuário */}
+      {/* PatientIdentifierList */}
       <div className="section-card">
         <div className="section-header">
-          <span className="tag tag-pid">PID[1]</span>
-          <h2 className="section-title">Prontuário</h2>
+          <span className="tag tag-pid">PID</span>
+          <h2 className="section-title">PatientIdentifierList</h2>
         </div>
+        <p className="text-xs text-slate-400 mb-3">
+          PI (código paciente) e TAX (CPF) são preenchidos automaticamente a partir dos campos acima.
+        </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <Field label="Prontuário" id="pid1_IDNumber"
-            value={form.pid1_IDNumber} onChange={v => set('pid1_IDNumber', v)} placeholder="Ex: 0012345" />
-          <Field label="Sigla procedimento" id="pid1_IdentifierTypeCode"
-            value={form.pid1_IdentifierTypeCode} onChange={v => set('pid1_IdentifierTypeCode', v)} placeholder="Ex: RAD" />
+          <Field label="Prontuário — IDNumber [MR]" id="pid1_IDNumber"
+            value={form.pid1_IDNumber} onChange={v => set('pid1_IDNumber', v)} placeholder="Ex: 91366" />
         </div>
       </div>
+
     </div>
   )
 }

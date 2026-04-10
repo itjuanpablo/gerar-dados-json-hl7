@@ -12,17 +12,17 @@ import { INITIAL_FORM_STATE } from './types/hl7'
 import { buildHL7Payload, getFileName } from './lib/buildPayload'
 
 const FIXED = [
-  { label: 'Sending app',    value: 'TASY' },
-  { label: 'Receiving app',  value: 'VUEPACS' },
-  { label: 'Facility',       value: 'PHILIPS' },
-  { label: 'Processing ID',  value: 'P' },
-  { label: 'Charset',        value: '8859/1' },
+  { label: 'Sending',    value: 'TASY' },
+  { label: 'Receiving',  value: 'VUEPACS' },
+  { label: 'Facility',   value: 'PHILIPS' },
+  { label: 'Processing', value: 'P' },
+  { label: 'Charset',    value: '8859/1' },
 ]
 
 export default function HomePage() {
-  const [step, setStep]     = useState(0)
-  const [form, setForm]     = useState<FormState>(INITIAL_FORM_STATE)
-  const [toast, setToast]   = useState({ msg: '', key: 0 })
+  const [step, setStep]   = useState(0)
+  const [form, setForm]   = useState<FormState>(INITIAL_FORM_STATE)
+  const [toast, setToast] = useState({ msg: '', key: 0 })
 
   const set = useCallback((key: keyof FormState, val: string) => {
     setForm(prev => ({ ...prev, [key]: val }))
@@ -44,11 +44,11 @@ export default function HomePage() {
     const blob     = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' })
     const url      = URL.createObjectURL(blob)
     const a        = document.createElement('a')
-    a.href         = url
-    a.download     = fileName
+    a.href     = url
+    a.download = fileName
     a.click()
     URL.revokeObjectURL(url)
-    showToast(`Arquivo ${fileName} baixado.`)
+    showToast(`Arquivo ${fileName} baixado com sucesso.`)
   }
 
   const progress = ((step + 1) / 4) * 100
@@ -57,33 +57,31 @@ export default function HomePage() {
     <div className="min-h-screen bg-slate-50">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
 
-        {/* ── Header ── */}
+        {/* Header */}
         <div className="mb-6">
-          <div className="flex items-start justify-between gap-4">
+          <div className="flex items-start justify-between gap-4 flex-wrap">
             <div>
               <h1 className="text-2xl font-semibold text-slate-900 tracking-tight">
                 Gerador HL7 — PACS
               </h1>
               <p className="text-sm text-slate-500 mt-1">
-                Monte o payload JSON para envio ao VUEPACS via integração TASY
+                Payload JSON para integração TASY → VUEPACS / PHILIPS
               </p>
               <div className="flex flex-wrap gap-1.5 mt-3">
                 <span className="chip bg-blue-50 text-blue-700 border-blue-200">TASY → VUEPACS</span>
-                <span className="chip bg-teal-50 text-teal-700 border-teal-200">processingID: P</span>
+                <span className="chip bg-teal-50  text-teal-700 border-teal-200">processingID: P</span>
                 <span className="chip bg-slate-100 text-slate-500 border-slate-200">charset 8859/1</span>
+                <span className="chip bg-purple-50 text-purple-700 border-purple-200">ORC como array</span>
               </div>
             </div>
-            <button
-              onClick={handleClear}
-              className="btn btn-ghost flex-shrink-0"
-            >
+            <button onClick={handleClear} className="btn btn-ghost">
               Limpar tudo
             </button>
           </div>
         </div>
 
-        {/* ── Fixed values ── */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 mb-5">
+        {/* Valores fixos */}
+        <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 mb-5">
           {FIXED.map(f => (
             <div key={f.label} className="metric-cell">
               <div className="metric-label">{f.label}</div>
@@ -92,7 +90,7 @@ export default function HomePage() {
           ))}
         </div>
 
-        {/* ── Progress bar ── */}
+        {/* Barra de progresso */}
         <div className="h-0.5 bg-slate-200 rounded-full mb-4 overflow-hidden">
           <div
             className="h-full bg-blue-500 rounded-full transition-all duration-500"
@@ -100,18 +98,16 @@ export default function HomePage() {
           />
         </div>
 
-        {/* ── Stepper ── */}
+        {/* Stepper */}
         <Stepper current={step} onStep={setStep} />
 
-        {/* ── Step content ── */}
-        <div>
-          {step === 0 && <StepPaciente    form={form} set={set} />}
-          {step === 1 && <StepAtendimento form={form} set={set} />}
-          {step === 2 && <StepExame       form={form} set={set} />}
-          {step === 3 && <StepRevisar     form={form} onDownload={handleDownload} />}
-        </div>
+        {/* Conteúdo da etapa */}
+        {step === 0 && <StepPaciente    form={form} set={set} />}
+        {step === 1 && <StepAtendimento form={form} set={set} />}
+        {step === 2 && <StepExame       form={form} set={set} />}
+        {step === 3 && <StepRevisar     form={form} onDownload={handleDownload} />}
 
-        {/* ── Navigation ── */}
+        {/* Navegação */}
         <div className="flex items-center justify-between mt-5 pt-4 border-t border-slate-200">
           {step > 0 ? (
             <button onClick={() => setStep(s => s - 1)} className="btn btn-secondary">
@@ -121,9 +117,7 @@ export default function HomePage() {
               </svg>
               Anterior
             </button>
-          ) : (
-            <div />
-          )}
+          ) : <div />}
 
           {step < 3 ? (
             <button onClick={() => setStep(s => s + 1)} className="btn btn-primary">
@@ -145,7 +139,6 @@ export default function HomePage() {
         </div>
 
       </div>
-
       <Toast message={toast.msg} show={toast.key > 0} key={toast.key} />
     </div>
   )
