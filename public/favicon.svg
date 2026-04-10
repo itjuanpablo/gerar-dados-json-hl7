@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <!-- Background rounded square -->
+  <rect width="32" height="32" rx="8" fill="#185FA5"/>
+
+  <!-- H -->
+  <rect x="5" y="9" width="2.5" height="14" rx="1" fill="white"/>
+  <rect x="5" y="15" width="7" height="2.5" rx="1" fill="white"/>
+  <rect x="9.5" y="9" width="2.5" height="14" rx="1" fill="white"/>
+
+  <!-- L -->
+  <rect x="14" y="9" width="2.5" height="14" rx="1" fill="white"/>
+  <rect x="14" y="20.5" width="5.5" height="2.5" rx="1" fill="white"/>
+
+  <!-- 7 -->
+  <rect x="20.5" y="9" width="6.5" height="2.5" rx="1" fill="#5DCAA5"/>
+  <path d="M24.5 11.5 L21 23" stroke="#5DCAA5" stroke-width="2.5" stroke-linecap="round"/>
+</svg>
